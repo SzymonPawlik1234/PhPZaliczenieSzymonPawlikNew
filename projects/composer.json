@@ -1,0 +1,6 @@
+{
+    "require": {
+        "symfony/form": "^7.2",
+        "symfony/ux-twig-component": "^2.22"
+    }
+}

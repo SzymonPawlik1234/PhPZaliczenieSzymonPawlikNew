@@ -1,0 +1,193 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {{'product_list'|trans}}</title>
+</head>
+<body>
+    <h1>{{'product_list'|trans}} </h1>
+
+    {% if products is not empty %}
+
+    <input type="text" id="searchBar" placeholder="Szukaj..." onkeyup="filterTable()">
+
+        <table border="1" cellspacing="0" cellpadding="5" id="productTable">
+            <thead>
+            <tr>
+                <th onclick="sortTable(0, this)">{{'type'|trans}}  <span class="arrow">▲▼</span></th>
+                <th onclick="sortTable(1, this)">{{'brand'|trans}}  <span class="arrow">▲▼</span></th>
+                <th onclick="sortTable(2, this)">{{'model'|trans}}  <span class="arrow">▲▼</span></th>
+                <th onclick="sortTable(3, this)">{{'price'|trans}}  <span class="arrow">▲▼</span></th>
+                <th onclick="sortTable(4, this)">{{'sound'|trans}}  <span class="arrow">▲▼</span></th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                    <tr>
+                        {# <td>{{ produkt.id }}</td> #}
+                        <td>{{ product.typ }}</td>
+                        <td>{{ product.marka }}</td>
+                        <td>{{ product.model }}</td>
+                        <td>{{ product.cena }}</td>
+                        <td>{{ product.brzmienie }}</td>
+                        <td>
+                            <form action="http://localhost:8095/product/{{ product.id }}">
+                                <input type="submit" value="{{ 'reviews'|trans }}" />
+                            </form>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <form action="http://localhost:8095/product/{{ product.id }}/edit">
+                                <input type="submit" value="{{ 'edit'|trans }}" />
+                            </form>
+                             <form action="http://localhost:8095/product/{{ product.id }}/delete">
+                                <input type="submit" value="{{ 'delete'|trans }}" />
+                            </form>
+
+                            {% endif %}
+                            
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>{{'no_product'|trans}} </p>
+    {% endif %}
+</body>
+
+<script>
+    function filterTable() {
+    let input = document.getElementById("searchBar").value.toLowerCase();
+    let rows = document.querySelectorAll("#productTable tbody tr");
+
+    rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? "" : "none";
+    });
+}
+
+function sortTable(columnIndex, header) {
+    let table = document.getElementById("productTable");
+    let tbody = table.querySelector("tbody");
+    let rows = Array.from(tbody.rows);
+    let isAscending = table.dataset.order === "asc";
+
+    rows.sort((rowA, rowB) => {
+        let cellA = rowA.cells[columnIndex].innerText.trim().toLowerCase();
+        let cellB = rowB.cells[columnIndex].innerText.trim().toLowerCase();
+
+        if (!isNaN(cellA) && !isNaN(cellB)) {
+            cellA = parseFloat(cellA);
+            cellB = parseFloat(cellB);
+            return isAscending ? cellA - cellB : cellB - cellA;
+        }
+
+        return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+    });
+
+    table.dataset.order = isAscending ? "desc" : "asc";
+    document.querySelectorAll(".arrow").forEach(span => span.innerHTML = "▲▼");
+    header.querySelector(".arrow").innerHTML = isAscending ? "▲" : "▼";
+    rows.forEach(row => tbody.appendChild(row));
+}
+</script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #searchBar {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    th:hover {
+        background-color: #e9ecef;
+    }
+
+    .arrow {
+        margin-left: 5px;
+        font-size: 0.8rem;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    td {
+        color: #555;
+    }
+
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin: 2px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .no-products {
+        text-align: center;
+        font-size: 1.2rem;
+        color: #777;
+        margin-top: 20px;
+    }
+</style>
+
+
+{% endblock %}

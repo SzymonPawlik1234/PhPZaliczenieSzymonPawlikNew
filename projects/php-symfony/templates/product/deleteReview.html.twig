@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{%  block body %}
+
+<h1>{{'delete_rev'|trans}}</h1>
+
+<p> {{'are_u_sure'|trans}} </p>
+
+<form method="post">
+
+    <button> {{'yes'|trans}} </button>
+
+    <a href="{{path('show_product' , {'id' : id}) }}"> {{'no'|trans}}  </a>
+
+</form>
+
+
+{% endblock %}

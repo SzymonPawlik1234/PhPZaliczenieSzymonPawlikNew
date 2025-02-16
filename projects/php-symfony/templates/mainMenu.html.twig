@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'main_menu'|trans }} - TheHeadphones{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>{{ 'welcome'|trans }}</h1>
+            <p>{{ 'welcome_description'|trans }}</p>
+            <a href="{{ path('products') }}" class="btn">{{ 'see_rankings'|trans }}</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <h2>🔥 {{ 'latest_reviews'|trans }}</h2>
+            <p>{{ 'latest_reviews_description'|trans }}</p>
+        </div>
+        <div class="feature">
+            <h2>🎧 {{ 'tests_comparisons'|trans }}</h2>
+            <p>{{ 'tests_comparisons_description'|trans }}</p>
+        </div>
+        <div class="feature">
+            <h2>💬 {{ 'community'|trans }}</h2>
+            <p>{{ 'community_description'|trans }}</p>
+        </div>
+    </section>
+
+
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        color: white;
+        padding: 100px 20px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .btn {
+        background-color: #ff6f61;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #ff4a3d;
+    }
+
+    .features {
+        display: flex;
+        justify-content: space-around;
+        padding: 50px 20px;
+        background-color: white;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .feature {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        max-width: 300px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature h2 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #1e3c72;
+    }
+
+    .feature p {
+        font-size: 1rem;
+        color: #555;
+    }
+
+    @media (max-width: 768px) {
+        .features {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+

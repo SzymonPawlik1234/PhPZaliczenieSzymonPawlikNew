@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}Moja aplikacja{% endblock %}</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #ffffff;
+            }
+            header {
+                background-color: hsl(210, 16.10%, 12.20%);
+                color: #fff;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .logo-container {
+                flex: 1;
+                text-align: center;
+            }
+            .logo {
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .status {
+                flex: 1;
+                text-align: right;
+            }
+            nav {
+                flex: 1;
+                text-align: left;
+            }
+            nav a {
+                color: #fff;
+                text-decoration: none;
+                margin: 0 10px;
+                font-size: 18px;
+            }
+            #language_form {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <form action="{{ path('change_language') }}" method="get" id="language_form">
+                    <label for="language">{{ 'change_language'|trans }}:</label>
+                    <select name="lang" id="language" onchange="document.getElementById('language_form').submit()">
+                        <option value="pl" {{ app.request.locale == 'pl' ? 'selected' : '' }}>Polski</option>
+                        <option value="en" {{ app.request.locale == 'en' ? 'selected' : '' }}>English</option>
+                        <option value="cs" {{ app.request.locale == 'cs' ? 'selected' : '' }}>Čeština</option>
+                    </select>
+                </form>
+            </nav>
+            <div class="logo-container">
+                <h1 class="logo">TheHeadphones</h1>
+                <h4>{{'the_best_rev_about_audio'|trans}}</h4>
+                <nav>
+                    <a href="http://localhost:8095">{{'home'|trans}}</a>
+                    <a href="http://localhost:8095/products">{{'Rank'|trans}}</a>
+                    {% if app.user is null %}
+                        <a href="http://localhost:8095/login">{{'login'|trans}}</a>
+                        <a href="http://localhost:8095/register">{{'register'|trans}}</a>
+                    {% else %}
+                        <a href="http://localhost:8095/logout">{{'logout'|trans}}</a>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="/products/add">{{'add_produck'|trans}}</a>
+                    {% endif %}
+                </nav>
+            </div>
+            <div class="status">
+                {% if app.user is not null %}
+                    {{'logged_as'|trans}}{{ app.user.email }}
+                {% else %}
+                    {{'not_logged'|trans}}Niezalogowany użytkownik
+                {% endif %}
+            </div>
+        </header>
+        
+        {% for message in app.flashes('notice') %}
+            <div class="notice">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+    </body>
+</html>

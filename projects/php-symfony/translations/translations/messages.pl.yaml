@@ -1,0 +1,64 @@
+welcome:  Witaj w TheHeadphones!
+change_language: "Zmień język"
+main_menu: Menu
+login: Log In
+Newsleter: Newsleter
+Rank: Ranking audio
+calendar: kalendarz
+admin_settings: Ustawienia admina
+number_of_users: Ilość uzytkownikow
+home: strona główna
+about_us: O nas
+offer: Oferty
+settings: Ustawienia
+info: Info
+contact: kontakt
+the_best_rev_about_audio: Najlepsze recenzje na temat audio
+add_produck: Dodaj produkt
+logged_as: Zalogowany jako:/
+not_logged: Niezalogowany użytkownik
+save: Zapisz
+type: Typ
+brand: Marka
+model: Model
+price: Cena
+sound: Dzwięk
+email: Email
+score: Ocena
+review_description: Opis recęzji 
+delete: Usuń produkt
+are_u_sure: Czy jesteś pewien 
+delete_rev: Usuń recęzje 
+yes: Tak
+no: Nie
+edit: Edytuj 
+product_list: Lista produktów
+reviews: Recenzje
+no_product: Brak produktów do wyświetlenia.
+avr_score: Średnia Ocena:/
+no_avr_score: Brak ocen
+add_review: Dodaj recenzję
+welcome_description: Twoje źródło najlepszych recenzji sprzętu audio. Odkryj topowe produkty i znajdź idealne brzmienie.
+see_rankings: Zobacz Rankingi
+latest_reviews: Najnowsze Recenzje
+latest_reviews_description: Sprawdź opinie na temat najnowszych modeli słuchawek i sprzętu audio.
+tests_comparisons: Testy & Porównania
+tests_comparisons_description: Dowiedz się, który model jest najlepszy dla Ciebie.
+community: Społeczność
+community_description: Dołącz do społeczności audiofilów i podziel się swoją opinią!
+register:
+    title: "Rejestracja"
+    heading: "Rejestracja"
+    email: "E-mail"
+    password: "Hasło"
+    agree_terms: "Zgadzam się na warunki"
+    submit: "Zarejestruj się"
+loginsite:
+    title: "Zaloguj się!"
+    heading: "Proszę się zalogować"
+    email: "E-mail"
+    password: "Hasło"
+    remember_me: "Zapamiętaj mnie"
+    submit: "Zaloguj się"
+    logged_in_as: "Jesteś zalogowany jako %username%"
+    logout: "Wyloguj się"

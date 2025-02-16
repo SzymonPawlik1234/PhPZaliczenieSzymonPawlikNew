@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="product-container">
+        <div class="product-details">
+            <div class="product-image">
+                <img src="{{ asset('img/ProduktImg' ~ product.id ~ '.webp') }}" alt="{{ product.marka }} {{ product.model }}" width="800" height="600">
+            </div>
+            <div class="product-info">
+                <h1>{{ product.marka }} {{ product.model }}</h1>
+                <p><strong>{{ 'type'|trans }}:</strong> {{ product.typ }}</p>
+                <p><strong>{{ 'brand'|trans }}:</strong> {{ product.marka }}</p>
+                <p><strong>{{ 'model'|trans }}:</strong> {{ product.model }}</p>
+                <p><strong>{{ 'price'|trans }}:</strong> {{ product.cena }} zł</p>
+                <p><strong>{{ 'sound'|trans }}:</strong> {{ product.brzmienie }}</p>
+                <h4>{{ 'avr_score'|trans }}: <span id="averageRating">{{ 'no_avr_score'|trans }}</span></h4>
+            </div>
+        </div>
+
+        <div class="add-review-section">
+            <h3>{{ 'add_review'|trans }}</h3>
+            {{ form_start(form) }}
+                {{ form_row(form.ocena) }}
+                <div class="txt">
+                    {{ form_row(form.opis_recenzji) }}
+                </div>
+                <div style="visibility: hidden;">
+                    {{ form_row(form.user_email) }}
+                    {{ form_row(form.id_produktu) }}
+                </div>
+                {{ form_row(form.save, { 'label': 'Dodaj komentarz'|trans }) }}
+            {{ form_end(form) }}
+        </div>
+
+        <div class="reviews-section">
+            <h3>{{ 'reviews'|trans }}</h3>
+            <ul class="reviews-list">
+                {% for review in reviews %}
+                    {% if product.id == review.idProduktu %}
+                        <li class="review-item">
+                            <div class="review-header">
+                                <strong>{{ review.userEmail }}</strong>
+                                <div class="stars">
+                                    {% for i in 1..5 %}
+                                        {% if i <= review.ocena %}
+                                            <span class="star filled">★</span>
+                                        {% else %}
+                                            <span class="star">☆</span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <p>{{ review.opisRecenzji }}</p>
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <form action="http://localhost:8095/product/{{ product.id }}/deleteReview/{{ review.id }}">
+                                <input type="submit" value="{{ 'delete'|trans }}" class="btn-delete" />
+                            </form>
+                            {% endif %}
+                           
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let reviews = document.querySelectorAll(".review-item");
+            let totalRating = 0;
+            let count = 0;
+
+            reviews.forEach(review => {
+                let stars = review.querySelectorAll(".star.filled").length;
+                totalRating += stars;
+                count++;
+            });
+
+            let averageRating = count > 0 ? (totalRating / count).toFixed(2) : "{{ 'no_avr_score'|trans }}";
+            document.getElementById("averageRating").textContent = averageRating;
+        });
+    </script>
+
+    <style>
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .product-details {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .product-image img {
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-info {
+        flex: 1;
+    }
+
+    .product-info h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+
+    .product-info p {
+        font-size: 1.1rem;
+        margin: 10px 0;
+    }
+
+    .add-review-section {
+        margin-bottom: 40px;
+    }
+
+    .add-review-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    .reviews-section h3 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    .reviews-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .review-item {
+        background: #f9f9f9;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .stars {
+        color: #ffc107;
+    }
+
+    .star.filled {
+        color: #ffc107;
+    }
+
+    .btn-delete {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-delete:hover {
+        background-color: #cc0000;
+    }
+</style>
+{% endblock %}
